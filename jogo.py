@@ -10,7 +10,6 @@ def pausar(palavra):
             print("Palavra incorreta. Tente novamente.")
     print("Palavra confirmada, autorização conedida")
 
-# Exemplo de uso
 pausar("entendi")
 print("O programa foi retomado.")
 
@@ -28,56 +27,71 @@ def imprimir(nome_arquivo, nome_coluna):
         for linha in leitor_csv:
             print(linha[nome_coluna])
 
-# Exemplo de uso
+
 nome_arquivo = 'projeto.csv'
 nome_coluna = 'Aventuras:'
 imprimir(nome_arquivo, nome_coluna)
 
 
-def escrever_aventura(nome_arquivo, aventura_1):
+
+
+
+def escolher_e_imprimir(nome_arquivo, nome_coluna):
+    with open(nome_arquivo, mode='r', newline='', encoding='utf-8') as arquivo_csv:
+        leitor_csv = csv.DictReader(arquivo_csv)
+        if nome_coluna not in leitor_csv.fieldnames:
+            print(f"Coluna '{nome_coluna}' não encontrada no arquivo CSV.")
+            return
+
+        elementos_coluna = [linha[nome_coluna] for linha in leitor_csv]
+
+        print("Escolha um número correspondente ao elemento que deseja imprimir:")
+        for i, elemento in enumerate(elementos_coluna):
+            print(f"{i+1}: {elemento}")
+
+        escolha = int(input("Digite o número correspondente: "))
+        if 1 <= escolha <= len(elementos_coluna):
+            print(f"O elemento correspondente ao número {escolha} é: {elementos_coluna[escolha-1]}")
+        else:
+            print("Número inválido!")
+
+
+
+
+
+def remover_elemento(nome_arquivo, nome_coluna):
     linhas = []
     with open(nome_arquivo, mode='r', newline='', encoding='utf-8') as arquivo_csv:
-        leitor_csv = csv.reader(arquivo_csv)
-        cabecalho = next(leitor_csv)
-        if nome_coluna not in cabecalho:
+        leitor_csv = csv.DictReader(arquivo_csv)
+        if nome_coluna not in leitor_csv.fieldnames:
             print(f"Coluna '{nome_coluna}' não encontrada no arquivo CSV.")
             return
         for linha in leitor_csv:
             linhas.append(linha)
-        i = cabecalho.index(nome_coluna)
-        for linha in linhas:
-            linha.insert(i, '')
-            linha[i] = aventura_1
-
+    elementos_coluna = [linha[nome_coluna] for linha in linhas]
+    elementos_coluna = elementos_coluna[:40] + elementos_coluna[44:]
+    print("Escolha um número correspondente ao elemento que deseja remover:")
+    for i, elemento in enumerate(elementos_coluna):
+        print(f"{i+1}: {elemento}")
+    escolha = int(input("Digite o número correspondente: "))
+    if not (1 <= escolha <= len(elementos_coluna)):
+        print("Número de aventura inválido!")
+        return
+    # Remove o elemento da lista
+    elemento_removido = elementos_coluna.pop(escolha - 1)
+    # Atualiza o arquivo CSV com a lista modificada
     with open(nome_arquivo, mode='w', newline='', encoding='utf-8') as arquivo_csv:
-        escritor_csv = csv.writer(arquivo_csv)
-        escritor_csv.writerows(linhas)
-        print("Nova aventura adicionada com sucesso!")
+        escritor_csv = csv.DictWriter(arquivo_csv, fieldnames=leitor_csv.fieldnames)
+        escritor_csv.writeheader()
+        for linha in linhas:
+            if linha[nome_coluna] != elemento_removido:
+                escritor_csv.writerow(linha)
+    print(f"A aventura '{elemento_removido}' foi removida com sucesso.")
 
-
-aventura_1 = input("Digite a nova aventura: ")
-escrever_aventura(nome_arquivo, aventura_1)
-imprimir(nome_arquivo, nome_coluna)
-
-
-
-
-
-#remove aventura
-def remove_aventura(nome_arquivo, aventura):
-    linhas_modificadas = []
-
-    with open(nome_arquivo, mode='r', newline='', encoding='utf-8') as arquivo_csv:
-        leitor = csv.DictReader(arquivo_csv)
-        cabecalho = leitor.fieldnames
-
-        for linha in csv:
-            if linha['AVENTURA:'] != aventura:
-                linhas_modificadas.remove(linha)
-
-    print(f"Aventura '{aventura}' removida com sucesso do arquivo CSV.")
-
-# Exemplo de uso
 nome_arquivo = 'projeto.csv'
-aventura = 'Aventura 1'
-remove_aventura(nome_arquivo, aventura)
+nome_coluna = 'Aventuras:'
+
+escolher_e_imprimir(nome_arquivo, nome_coluna)
+remover_elemento(nome_arquivo, nome_coluna)
+
+
