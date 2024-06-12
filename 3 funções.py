@@ -43,6 +43,7 @@ def escolher_e_imprimir(nome_arquivo, nome_coluna):
             return
 
         elementos_coluna = [linha[nome_coluna] for linha in leitor_csv]
+        elementos_coluna = elementos_coluna[:40] + elementos_coluna[44:]
 
         print("Escolha um número correspondente ao elemento que deseja imprimir:")
         for i, elemento in enumerate(elementos_coluna):
