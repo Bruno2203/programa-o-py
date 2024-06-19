@@ -5,32 +5,27 @@ print(objetivo)
 def pausar(palavra):
     entrada = ""
     while entrada != palavra:
-        entrada = input("Digite 'entendi' para dar continuidade: ")
+        entrada = input("Digite 's' para dar continuidade: ")
         if entrada != palavra:
             print("Palavra incorreta. Tente novamente.")
     print("Palavra confirmada, autorização conedida")
 
-pausar("entendi")
+pausar("s")
 print("O programa foi retomado.")
-
-
 
 import csv
 
-def imprimir(nome_arquivo, nome_coluna):
-    with open(nome_arquivo, mode='r', newline='', encoding='utf-8') as arquivo_csv:
-        leitor_csv = csv.DictReader(arquivo_csv)
-        if nome_coluna not in leitor_csv.fieldnames:
-            print(f"Coluna '{nome_coluna}' não encontrada no arquivo CSV.")
-            return
+vetor = []
+with open('projeto.csv', 'r') as arquivo_csv:
+    reader =  csv.DictReader(arquivo_csv)
+    for row in reader:
+        vetor.append(row)
 
-        for linha in leitor_csv:
-            print(linha[nome_coluna])
+def imprimir_aventura(nome_arquivo, nome_coluna):
+    for linha in reader:
+        print(linha[nome_coluna])
 
 
-nome_arquivo = 'projeto.csv'
-nome_coluna = 'Aventuras:'
-imprimir(nome_arquivo, nome_coluna)
 
 
 
@@ -91,7 +86,5 @@ def remover_elemento(nome_arquivo, nome_coluna):
 nome_arquivo = 'projeto.csv'
 nome_coluna = 'Aventuras:'
 
-escolher_e_imprimir(nome_arquivo, nome_coluna)
-remover_elemento(nome_arquivo, nome_coluna)
-
+imprimir_aventura(nome_arquivo, nome_coluna)
 
