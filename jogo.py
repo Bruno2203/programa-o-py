@@ -56,3 +56,34 @@ caminho_arquivo_csv = 'projeto.csv'
 indice = int(input(f"Digite o índice da aventura que deseja imprimir (0 a 39): "))
 imprimir_aventura_especifica(caminho_arquivo_csv, indice)
          
+def remover_aventura(caminho_arquivo_csv, indice):
+    aventuras = []
+    
+    # Ler aventuras do arquivo CSV
+    with open(caminho_arquivo_csv, 'r', newline='', encoding='utf-8') as arquivo:
+        leitor = csv.DictReader(arquivo)
+        for linha in leitor:
+            aventuras.append(linha['Aventuras'])
+
+    # Verificar se o índice fornecido é válido
+    if 0 <= indice < len(aventuras):
+        aventura_removida = aventuras.pop(indice)
+        print(f"Aventura removida: {aventura_removida}")
+    else:
+        print("Índice fora do intervalo.")
+        return
+    
+    # Escrever de volta ao arquivo CSV sem a aventura removida
+    with open(caminho_arquivo_csv, 'w', newline='', encoding='utf-8') as arquivo:
+        escritor = csv.writer(arquivo)
+        for aventura in aventuras:
+            escritor.writerow([aventura])
+
+    print("Lista atualizada de aventuras:")
+    for aventura in aventuras:
+        print(aventura)
+
+# Exemplo de uso da função para remover uma aventura específica escolhida pelo usuário
+caminho_arquivo_csv = 'projeto.csv'
+indice = int(input(f"Digite o índice da aventura que deseja remover (0 a 39): "))
+remover_aventura(caminho_arquivo_csv, indice)
