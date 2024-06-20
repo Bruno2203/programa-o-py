@@ -63,7 +63,7 @@ def remover_aventura(caminho_arquivo_csv, indice):
     with open(caminho_arquivo_csv, 'r', newline='', encoding='utf-8') as arquivo:
         leitor = csv.DictReader(arquivo)
         for linha in leitor:
-            aventuras.append(linha['Aventuras'])
+            aventuras.append(linha['Aventuras:'])
 
     # Verificar se o índice fornecido é válido
     if 0 <= indice < len(aventuras):
