@@ -44,17 +44,24 @@ for aventura in aventuras:
 
 
 def imprimir_aventura_especifica(caminho_arquivo_csv, indice):
-    av_escolhida = []
+    aventuras = []
+    opcoes_a = []
+    opcoes_b = []
     # Abrindo e lendo o arquivo CSV para imprimir uma aventura específica
     with open(caminho_arquivo_csv, 'r') as arquivo:
         leitor = csv.DictReader(arquivo)
         for linha in leitor:
             aventuras.append(linha['Aventuras:'])
+            opcoes_a.append(linha['opA'])
+            opcoes_b.append(linha['opB'])
 
     if 0 <= indice < len(aventuras):
         print(f"Aventura na posição {indice}: {aventuras[indice]}")
+        print(f"Opção A: {opcoes_a[indice]}")
+        print(f"Opção B: {opcoes_b[indice]}")
     else:
         print("Índice fora do intervalo.")
+
 
 # Exemplo de uso da função para imprimir uma aventura específica escolhida pelo usuário
 caminho_arquivo_csv = 'projeto.csv'
