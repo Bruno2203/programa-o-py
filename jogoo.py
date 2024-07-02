@@ -4,7 +4,7 @@ import csv
 av = []
 
 # Lendo o conteúdo do arquivo 'objetivo.txt'
-with open('objetivo.txt', 'r') as arquivo:
+with open('Objetivo.txt', 'r') as arquivo:
     obj = arquivo.read()
 
 # Lendo o conteúdo do arquivo 'projeto.csv'
@@ -16,20 +16,18 @@ with open('projeto.csv', 'r') as arquivo:
 # Função para imprimir todas as aventuras
 def imprime_aventura(copia_v):
     for k in copia_v:
-        print(f"av: {k['Aventuras:']}")
+        print(f"av: {k['Aventuras']}")
 
 
 # Função para imprimir uma aventura específica
 def imprime_escolhida(copia_v, n):
     for k in copia_v:
-        if k == n:
-            print(f"av: {k['Aventuras:']}")
+        if k==copia_v[n]:
+            print(f"av: {k['Aventuras']}")
 
 # Função para excluir uma aventura específica
 def exclui_especifica(copia_v, n):
-    for k in copia_v:
-        if k == n:
-            copia_v.pop(k)
+    copia_v.pop(n)
     return copia_v
 
 def continua(palavra):
@@ -46,9 +44,11 @@ print(obj)
 continua("s")
 print("O programa foi retomado.")
 imprime_aventura(av)
-av1 = input("escolha uma aventura de 0 a 39 ")
+av1 = int(input("escolha uma aventura de 0 a 39 "))
+print(len(av))  
 imprime_escolhida(av, av1)
 av = exclui_especifica(av, av1)
+print(len(av))
 print("FIM...")
 
 
