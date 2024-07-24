@@ -29,23 +29,27 @@ def imprime_escolhida(copia_v, n):
             print()
             print(f"opção A: {k['opA']}")
             print(f"opção B: {k['opB']}")
-            escolha = input("Escolha uma opção (A ou B): ").strip().upper()
+            escolha = input("Escolha uma opção (A ou B): ").upper()
+            n_a = random.randint(0,100)
+            
             if escolha == 'A':
-                probabilidade_a = k['probSA']
+                probabilidade_a = int(k['probSA'])
+                if n_a < probabilidade_a:
+                    print({k['msgSA']})
+                if n_a > probabilidade_a:
+                    print({k['msgFA']})
             elif escolha == 'B':
-                probabilidade_b = k['probSB']
+                probabilidade_b = int(k['probSB'])
+                if n_a < probabilidade_b:
+                    print({k['msgSB']})
+                if n_a > probabilidade_b:
+                    print({k['msgFB']})
             else:
                 print("Opção inválida. Tente novamente.")
                 return
-            n_a = random.randint(0,100)
-            if n_a < probabilidade_a:
-                print("msgSA")
-            if n_a > probabilidade_a:
-                print("msgFA")
-            if n_a < probabilidade_b:
-                print("msgSA")
-            if n_a > probabilidade_b:
-                print("msgFA")
+            
+
+            
 
 
 # Função para excluir uma aventura específica
@@ -62,13 +66,22 @@ def continua(palavra):
     print("Palavra confirmada, autorização concedida")
 
 
-
+n = 39
 print(obj)
 continua("s")
 print("O programa foi retomado.")
 imprime_aventura(av)
-av1 = random.randint(0, 39)
+av1 = random.randint(0, n)
 print(len(av))  
-imprime_escolhida(av, av1)
+
+while n != 0:
+    imprime_escolhida(av, av1)
+    av1 = random.randint(0, n)
+    print(len(av))  
+    n = n - 1
+
+
+
+
 av = exclui_especifica(av, av1)
 print(len(av))
